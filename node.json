@@ -1,0 +1,219 @@
+{
+	"category": "Radio",
+	"name": "SimpleLoRa",
+	"inputs": 1,
+	"outputs": 2,
+	"parameters": [
+		{
+			"name": "cmwx1zzabz",
+			"type": "bool",
+			"default": 1,
+			"options": [
+				""
+			],
+			"value": 1
+		},
+		{
+			"name": "Frequency",
+			"type": "raw",
+			"default": "868.0",
+			"options": [
+				""
+			],
+			"value": "868.0"
+		},
+		{
+			"name": "PreambleMSB",
+			"type": "int",
+			"default": 0,
+			"options": [
+				""
+			],
+			"value": 0
+		},
+		{
+			"name": "PreambleLSB",
+			"type": "raw",
+			"default": "0x08",
+			"options": [
+				""
+			],
+			"value": "0x08"
+		},
+		{
+			"name": "CodingRate",
+			"type": "option",
+			"default": "5",
+			"options": [
+				"5\r",
+				"6\r",
+				"7\r",
+				"8\r"
+			],
+			"value": "5"
+		},
+		{
+			"name": "Spreading Factor",
+			"type": "option",
+			"default": "9",
+			"options": [
+				"6\r",
+				"7\r",
+				"8\r",
+				"9\r",
+				"10\r",
+				"11\r",
+				"12\r"
+			],
+			"value": "9"
+		},
+		{
+			"name": "Bandwidth",
+			"type": "option",
+			"default": "250.0",
+			"options": [
+				"7.8\r",
+				"10.4\r",
+				"15.6\r",
+				"20.8\r",
+				"31.25\r",
+				"41.7\r",
+				"62.5\r",
+				"125.0\r",
+				"250.0\r",
+				"500.0\r"
+			],
+			"value": "250.0"
+		},
+		{
+			"name": "HeaderMode",
+			"type": "bool",
+			"default": 0,
+			"options": [
+				""
+			],
+			"value": 0
+		},
+		{
+			"name": "PayloadLength",
+			"type": "int",
+			"default": 32,
+			"options": [
+				""
+			],
+			"value": 32
+		},
+		{
+			"name": "MOSI",
+			"type": "raw",
+			"default": "PA_7",
+			"options": [
+				""
+			],
+			"value": "PA_7"
+		},
+		{
+			"name": "MISO",
+			"type": "raw",
+			"default": "PA_6",
+			"options": [
+				""
+			],
+			"value": "PA_6"
+		},
+		{
+			"name": "SCK",
+			"type": "raw",
+			"default": "PB_3",
+			"options": [
+				""
+			],
+			"value": "PB_3"
+		},
+		{
+			"name": "CS",
+			"type": "raw",
+			"default": "PA_15",
+			"options": [
+				""
+			],
+			"value": "PA_15"
+		},
+		{
+			"name": "RST",
+			"type": "raw",
+			"default": "PC_0",
+			"options": [
+				""
+			],
+			"value": "PC_0"
+		},
+		{
+			"name": "DIO0",
+			"type": "raw",
+			"default": "PB_4",
+			"options": [
+				""
+			],
+			"value": "PB_4"
+		},
+		{
+			"name": "DIO1",
+			"type": "raw",
+			"default": "PB_1",
+			"options": [
+				""
+			],
+			"value": "PB_1"
+		},
+		{
+			"name": "MODE",
+			"type": "raw",
+			"default": "0",
+			"options": [
+				""
+			],
+			"value": "0"
+		},
+		{
+			"name": "Power",
+			"type": "option",
+			"default": "0",
+			"options": [
+				"-1\r",
+				"0\r",
+				"2\r",
+				"5\r",
+				"10\r",
+				"15\r",
+				"17\r",
+				"20\r"
+			],
+			"value": "0"
+		},
+		{
+			"name": "tcxo",
+			"type": "raw",
+			"default": "PA_12",
+			"options": [
+				""
+			],
+			"value": "PA_12"
+		}
+	],
+	"labels": {
+		"input": [],
+		"output": []
+	},
+	"schematic_pins": {
+		"inputs": [
+			1
+		],
+		"outputs": [
+			2,
+			3
+		]
+	},
+	"repository": "https://github.com/nBlocksStudioNodes/nblocks_simplelora",
+	"revision": ""
+}
