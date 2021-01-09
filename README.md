@@ -44,12 +44,12 @@ If the input in TX node is string, the RX node will convert it to array of char,
  *  DIO0 : PinName: Microcontroller pin to SX1276
  *  DIO1 : PinName: Microcontroller pin to SX1276
  *  Mode: uint8_t: 0 RX and when Input is triggered TX the packet, 1 TX only, 2 RX only
- *  Power: int: -1, 0, 2, 5, 10, 15, 17, 20  in dBm
+ *  Power: PowerTx: POWER_MIN1, POWER_0, POWER_2, POWER_5, POWER_8, POWER_10, POWER_15, POWER_17, POWER_20  in dBm
  *  tcxo: PinName: Microcontroller pin to CMWX1ZZABZ TCXO
  *  useleds: bool: true for using leds
  *  ledtx: PinName: TX LED
-*  ledtx: PinName: RX LED
-*  ledtx: PinName: Test LED
+ *  ledtx: PinName: RX LED
+ *  ledtx: PinName: Test LED
 
 ## Example:
 Transmitter:  [Ticker]-->[Counter]-->[StringFormat]-->[SimpleLoRa]-->RF )))    

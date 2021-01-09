@@ -30,8 +30,8 @@ public:
         PinName dio0, 
         PinName dio1,
         uint8_t mode, 
-        int power,
-        PinName tcxo
+        PowerTx power,
+        PinName tcxo,
         bool useleds,
         PinName ledtx,
         PinName ledrx,
@@ -39,6 +39,8 @@ public:
     );
     void triggerInput(nBlocks_Message message);
     void endFrame(void);
+    bool _cmwx1zzabz;
+    bool _useleds;
 private:
     uint32_t _mode;
 
@@ -49,8 +51,8 @@ private:
     DigitalOut _rxled;
     DigitalOut _testled;
 
-    char _tx_buffer[32];
-    char _rx_buffer[32];
+    char _tx_buffer[256];
+    char _rx_buffer[256];
     int  _tx_updated;
     uint8_t _payloadlength;
 };
