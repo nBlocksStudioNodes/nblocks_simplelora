@@ -1,3 +1,4 @@
+
 {
 	"category": "Radio",
 	"name": "SimpleLoRa",
@@ -95,13 +96,22 @@
 			"value": 0
 		},
 		{
-			"name": "PayloadLength",
-			"type": "int",
-			"default": 32,
+			"name": "CrcOn",
+			"type": "bool",
+			"default": 0,
 			"options": [
 				""
 			],
-			"value": 32
+			"value": 0
+		},
+		{
+			"name": "PayloadLength",
+			"type": "raw",
+			"default": "20",
+			"options": [
+				""
+			],
+			"value": "20"
 		},
 		{
 			"name": "MOSI",
@@ -167,11 +177,18 @@
 			"value": "PB_1"
 		},
 		{
-			"name": "MODE",
+			"name": "Mode",
 			"type": "raw",
 			"default": "0",
 			"options": [
-				""
+				"-1\r",
+				"0\r",
+				"2\r",
+				"5\r",
+				"10\r",
+				"15\r",
+				"17\r",
+				"20\r"
 			],
 			"value": "0"
 		},
@@ -199,6 +216,42 @@
 				""
 			],
 			"value": "PA_12"
+		},
+		{
+			"name": "useleds",
+			"type": "bool",
+			"default": 1,
+			"options": [
+				""
+			],
+			"value": 1
+		},
+		{
+			"name": "txled",
+			"type": "raw",
+			"default": "PB_6",
+			"options": [
+				""
+			],
+			"value": "PB_6"
+		},
+		{
+			"name": "rxled",
+			"type": "raw",
+			"default": "PB_5",
+			"options": [
+				""
+			],
+			"value": "PB_5"
+		},
+		{
+			"name": "testled",
+			"type": "raw",
+			"default": "PB_7",
+			"options": [
+				""
+			],
+			"value": "PB_7"
 		}
 	],
 	"labels": {

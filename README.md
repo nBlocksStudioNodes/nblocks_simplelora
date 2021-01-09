@@ -1,5 +1,5 @@
 # SimpleLoRa
-
+SubGHz Radio with LoRa modulation. 
 
 <p align="center">
 <img
@@ -8,25 +8,22 @@ width = 400
 />
 </p>
 
-SubGHz Radio with LoRa modulation.
  *  Category: Radio
  *  HAL: mbed
  *  Tested: CMWX1ZZABZ (Murata Module SX1276, STM32L072, TCXO), n-PRO-DAP
  *  Author: N. Chalikias
 
-## Input / Output data type
+## Input /Output data types 
 If the node is used as TX and the input is array of char, it will have the same format as the output of the RX node, so the two radio nodes become transparent.  
-If the input in TX node is string, the RX node will convert it to array of char, so the output of RX will not be the of the same type.
+If the input in TX node is string, the RX node will convert it to array of char, so the output of RX will not be the of the same type.  
 
 ## Input
  *  (Schematic pin 1) two options, Pointer to:
      *  *string
      *  *array
-
 ## Outputs
  *  (Schematic pin 2) *array of char: Payload
  *  (Schematic pin 3)  int: RSSI of the received Payload
-
 
 ## Parameters:
  *  cmwx1zzabz: bool: true for CMWX1ZZABZ, false for SX1276 without TCXO module
@@ -49,8 +46,13 @@ If the input in TX node is string, the RX node will convert it to array of char,
  *  Mode: uint8_t: 0 RX and when Input is triggered TX the packet, 1 TX only, 2 RX only
  *  Power: int: -1, 0, 2, 5, 10, 15, 17, 20  in dBm
  *  tcxo: PinName: Microcontroller pin to CMWX1ZZABZ TCXO
+ *  useleds: bool: true for using leds
+ *  ledtx: PinName: TX LED
+*  ledtx: PinName: RX LED
+*  ledtx: PinName: Test LED
 
 ## Example:
-Transmitter:  [Ticker]-->[Counter]-->[StringFormat]-->[SimpleLoRa]-->RF )))  
+Transmitter:  [Ticker]-->[Counter]-->[StringFormat]-->[SimpleLoRa]-->RF )))    
 Receiver:  ((( RF--> [SimpleLoRa]-->[StringSerial]
+
 

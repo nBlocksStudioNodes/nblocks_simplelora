@@ -16,7 +16,7 @@ public:
         float frequency, 
         uint8_t preamblemsb, 
         uint8_t preamblelsb, 
-        uint8_t:  codingrate,
+        uint8_t  codingrate,
         uint8_t spreadingfactor, 
         float bandwidth, 
         bool headermode, 
@@ -29,9 +29,13 @@ public:
         PinName rst, 
         PinName dio0, 
         PinName dio1,
-        uint8_t: mode, 
+        uint8_t mode, 
         int power,
         PinName tcxo
+        bool useleds,
+        PinName ledtx,
+        PinName ledrx,
+        PinName ledtest
     );
     void triggerInput(nBlocks_Message message);
     void endFrame(void);
@@ -41,6 +45,9 @@ private:
     SX127x_lora  _lora_select;
     SX127x       _board;
     DigitalOut _tcxo;
+    DigitalOut _txled;
+    DigitalOut _rxled;
+    DigitalOut _testled;
 
     char _tx_buffer[32];
     char _rx_buffer[32];
