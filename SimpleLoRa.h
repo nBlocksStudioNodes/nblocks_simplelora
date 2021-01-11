@@ -2,7 +2,7 @@
 #define __NB_SIMPLELORA
 
 #include "nworkbench.h"
-#include "SX1272_Lib/sx127x_lora.h"
+#include "sx127x_lora.h"
 
 #define RADIO_MODE_TX_ONLY 2
 #define RADIO_MODE_RX_ONLY 1
@@ -34,27 +34,30 @@ public:
         PinName tcxo,
         bool useleds,
         PinName ledtx,
-        PinName ledrx,
-        PinName ledtest
+        PinName ledrx
     );
     void triggerInput(nBlocks_Message message);
     void endFrame(void);
     bool _cmwx1zzabz;
     bool _useleds;
+    uint32_t framecounter;
+    SX127x       _board;
+    SX127x_lora  _lora_select;
+
 private:
     uint32_t _mode;
 
-    SX127x_lora  _lora_select;
-    SX127x       _board;
+
+
     DigitalOut _tcxo;
-    DigitalOut _txled;
-    DigitalOut _rxled;
-    DigitalOut _testled;
+    DigitalOut _ledtx;
+    DigitalOut _ledrx;
 
     char _tx_buffer[256];
     char _rx_buffer[256];
     int  _tx_updated;
     uint8_t _payloadlength;
+
 };
 
 #endif

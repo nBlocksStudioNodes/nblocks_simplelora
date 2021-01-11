@@ -5,15 +5,12 @@ nBlock_SimpleLoRa::nBlock_SimpleLoRa (
         float frequency, uint8_t preamblemsb, uint8_t preamblelsb, uint8_t codingrate,
         uint8_t spreadingfactor, float bandwidth, bool headermode, bool crcon, uint8_t payloadlength,
         PinName mosi, PinName miso, PinName sck, PinName cs, PinName rst, PinName dio0, PinName dio1,
-        uint8_t mode, PowerTx power, PinName tcxo,
-        bool useleds, PinName txled, PinName rxled, PinName testled
-        ):  _lora_select(_board), _board(mosi, miso, sck, cs, rst,dio0, dio1), _tcxo(tcxo), _txled(txled), _rxled(rxled), _testled(testled) {
-    /*
-    if (useleds){
-        _txled(txled);
-        _rxled(rxled);
-        _testled(testled);
-    }*/
+        uint8_t mode, PowerTx power, PinName tcxo, bool useleds, PinName ledtx, PinName ledrx) :  
+        _tcxo(tcxo), 
+        _ledtx(ledtx), _ledrx(ledrx),
+        _board(mosi, miso, sck, cs, rst, dio0,    dio1),
+        _lora_select(_board)
+{
     _cmwx1zzabz = cmwx1zzabz;
     _useleds = useleds;
     if(payloadlength < 33) _payloadlength = payloadlength;
@@ -41,10 +38,11 @@ nBlock_SimpleLoRa::nBlock_SimpleLoRa (
     _tx_updated = 0;
     
     outputType[0] = OUTPUT_TYPE_ARRAY;
+    /*
     for (int i=0; i<32; i++) {
         _tx_buffer[i] = 0;
         _rx_buffer[i] = 0;
-    }
+    }*/
 }
 
 void nBlock_SimpleLoRa::triggerInput(nBlocks_Message message) {   
@@ -72,11 +70,12 @@ void nBlock_SimpleLoRa::triggerInput(nBlocks_Message message) {
 }
 
 void nBlock_SimpleLoRa::endFrame(void) {
+    _tcxo = 1;
     if (_cmwx1zzabz) _tcxo = 1;
-    if (_useleds) { _testled = !_testled; }                         // we have endFrame
+    //if (_useleds) { _testled = !_testled; }                         // we have endFrame
     if (_mode != RADIO_MODE_TX_ONLY){
         if (_lora_select.service() == SERVICE_READ_FIFO) {     
-            if (_useleds) { _rxled = !_rxled; }                     // we have RX
+                                
             output[1] = _lora_select.get_pkt_rssi();                // rssi to a the 2nd Node output           [SimpleSerial](3)
             output[0] = (uint32_t)(&_board.rx_buf);                 // the payload to the first Node output    [SimpleSerial](2)
             available[0] = _payloadlength; 
@@ -87,15 +86,19 @@ void nBlock_SimpleLoRa::endFrame(void) {
     if (_mode != RADIO_MODE_RX_ONLY){    
         if (_tx_updated) {
             _tx_updated = 0;
-            //_board.tx_buf = _tx_buffer;                           // _radio.Transmit(_tx_buffer);
+            _tcxo = 1;
+            //_ledtx = !_ledtx; // blue led
             _lora_select.start_tx(_payloadlength);
-            wait_us(2000);           
-            if (_lora_select.service() == SERVICE_TX_DONE){         // we have TX
-                if (_useleds) { _txled = !_txled; }
-            } 
+            //wait_us(400000);
+            //if (_lora_select.service() == SERVICE_TX_DONE){_ledrx = !_ledrx;} 
+            
         }
     }
-
-    return;
+    framecounter++;
+    if (framecounter > 400){
+        framecounter = 0;
+        //if (_lora_select.service() == SERVICE_TX_DONE){_ledrx = !_ledrx;} 
+    }
+return;
 }
 
