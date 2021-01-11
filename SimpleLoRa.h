@@ -8,8 +8,8 @@
 #define RADIO_MODE_RX_ONLY 1
 #define RADIO_MODE_BIDIR   0
 
-
-class nBlock_SimpleLoRa: public nBlockSimpleNode<1> {
+// number of outputs is declared here: 2outputs <2>
+class nBlock_SimpleLoRa: public nBlockSimpleNode<2> {
 public:
     nBlock_SimpleLoRa(
         bool cmwx1zzabz,        

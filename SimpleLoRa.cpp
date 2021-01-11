@@ -16,6 +16,7 @@ nBlock_SimpleLoRa::nBlock_SimpleLoRa (
     if(payloadlength < 33) _payloadlength = payloadlength;
     if(payloadlength > 32) _payloadlength = 32;             // Limit payloadlength for saving RAM space
     if (cmwx1zzabz) { _tcxo = 1; }                          // CMWX1ZZABZ will not start without this
+    _tcxo =1;
     _board.hw_reset();                                      // Reset
     wait_us(100000);                                        // **** 100ms ****
     _board.init();                                          // Initialize TX
@@ -32,7 +33,7 @@ nBlock_SimpleLoRa::nBlock_SimpleLoRa (
     _lora_select.setRxPayloadCrcOn(crcon);                  // Turn Off CRC
     _lora_select.setTxPower(power);                         // Set Power      
     _board.write_reg(REG_LR_PAYLOADLENGTH,payloadlength);   // Set Payload Length
-    if (cmwx1zzabz) _tcxo = 0;                              // CMWX1ZZABZ Back to Low Power
+    if (cmwx1zzabz) _tcxo = 1;                              // CMWX1ZZABZ Back to Low Power---------------
 
     _mode = mode;
     _tx_updated = 0;
@@ -72,17 +73,16 @@ void nBlock_SimpleLoRa::triggerInput(nBlocks_Message message) {
 void nBlock_SimpleLoRa::endFrame(void) {
     _tcxo = 1;
     if (_cmwx1zzabz) _tcxo = 1;
-    //if (_useleds) { _testled = !_testled; }                         // we have endFrame
     if (_mode != RADIO_MODE_TX_ONLY){
-        if (_lora_select.service() == SERVICE_READ_FIFO) {     
-                                
+        _lora_select.start_rx();                                    // RECEIVER MODE
+        if (_lora_select.service() == SERVICE_READ_FIFO) {                                    
+            _ledrx = !_ledrx;
             output[1] = _lora_select.get_pkt_rssi();                // rssi to a the 2nd Node output           [SimpleSerial](3)
             output[0] = (uint32_t)(&_board.rx_buf);                 // the payload to the first Node output    [SimpleSerial](2)
             available[0] = _payloadlength; 
             available[1] = 1;        
         }
     }
-
     if (_mode != RADIO_MODE_RX_ONLY){    
         if (_tx_updated) {
             _tx_updated = 0;
@@ -90,8 +90,7 @@ void nBlock_SimpleLoRa::endFrame(void) {
             //_ledtx = !_ledtx; // blue led
             _lora_select.start_tx(_payloadlength);
             //wait_us(400000);
-            //if (_lora_select.service() == SERVICE_TX_DONE){_ledrx = !_ledrx;} 
-            
+            //if (_lora_select.service() == SERVICE_TX_DONE){_ledrx = !_ledrx;}            
         }
     }
     framecounter++;
