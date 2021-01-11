@@ -43,6 +43,7 @@ public:
     uint32_t framecounter;
     SX127x       _board;
     SX127x_lora  _lora_select;
+    bool waitingTXDONE = false;
 
 private:
     uint32_t _mode;
