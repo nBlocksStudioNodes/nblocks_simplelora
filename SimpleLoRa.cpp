@@ -77,7 +77,7 @@ void nBlock_SimpleLoRa::endFrame(void) {
         if (waitingTXDONE == false){
             _lora_select.start_rx();                                    // RECEIVER MODE
             if (_lora_select.service() == SERVICE_READ_FIFO) {                                    
-                _ledrx = !_ledrx;
+                if (_useleds) { _ledrx = !_ledrx; }
                 output[1] = _lora_select.get_pkt_rssi();                // rssi to a the 2nd Node output           [SimpleSerial](3)
                 output[0] = (uint32_t)(&_board.rx_buf);                 // the payload to the first Node output    [SimpleSerial](2)
                 available[0] = _payloadlength; 
@@ -97,7 +97,9 @@ void nBlock_SimpleLoRa::endFrame(void) {
     if (framecounter > 400){
         framecounter = 0;
         waitingTXDONE = false;
-        if (_lora_select.service() == SERVICE_TX_DONE){_ledtx = !_ledtx;} 
+        if (_lora_select.service() == SERVICE_TX_DONE){
+            if (_useleds) { _ledtx = !_ledtx; }
+            } 
     }
 return;
 }
