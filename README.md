@@ -8,9 +8,11 @@ width = 400
 />
 </p>
 
+SubGHz Radio with LoRa modulation. Will work on boards based on Murata CMWX1ZZABZ and potentially, on boards with mbed supported Microprocessor and SX1276 radio.
+This Node Supports the long range LoRa modulation, not a Wide Area Network protocol.
  *  Category: Radio
  *  HAL: mbed
- *  Tested: CMWX1ZZABZ (Murata Module SX1276, STM32L072, TCXO), n-PRO-DAP
+ *  Tested: CMWX1ZZABZ (Murata Module SX1276, STM32L072, TCXO), n-PRO-40, n-DAP
  *  Author: N. Chalikias
 
 ## Input /Output data types 
@@ -49,10 +51,10 @@ If the input in TX node is string, the RX node will convert it to array of char,
  *  useleds: bool: true for using leds
  *  ledtx: PinName: TX LED
  *  ledtx: PinName: RX LED
- *  ledtx: PinName: Test LED
 
 ## Example:
 Transmitter:  [Ticker]-->[Counter]-->[StringFormat]-->[SimpleLoRa]-->RF )))    
 Receiver:  ((( RF--> [SimpleLoRa]-->[StringSerial]
+
 
 
