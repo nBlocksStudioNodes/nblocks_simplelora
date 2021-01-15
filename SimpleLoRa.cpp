@@ -71,17 +71,21 @@ void nBlock_SimpleLoRa::triggerInput(nBlocks_Message message) {
 }
 
 void nBlock_SimpleLoRa::endFrame(void) {
+    //_ledtx = 1;
+    //wait_us(50); //testing the kernel
+    //_ledtx = 0;
     _tcxo = 1;
     if (_cmwx1zzabz) _tcxo = 1;
     if (_mode != RADIO_MODE_TX_ONLY){
         if (waitingTXDONE == false){
             _lora_select.start_rx();                                    // RECEIVER MODE
             if (_lora_select.service() == SERVICE_READ_FIFO) {                                    
-                if (_useleds) { _ledrx = !_ledrx; }
+                if (_useleds) { _ledrx = 1; }
                 output[1] = _lora_select.get_pkt_rssi();                // rssi to a the 2nd Node output           [SimpleSerial](3)
                 output[0] = (uint32_t)(&_board.rx_buf);                 // the payload to the first Node output    [SimpleSerial](2)
                 available[0] = _payloadlength; 
-                available[1] = 1;        
+                available[1] = 1; 
+                framecounter = 0;  // reset LED timer     
             }
         }
     }
@@ -94,13 +98,16 @@ void nBlock_SimpleLoRa::endFrame(void) {
         }
     }
     framecounter++;
-    if (framecounter > 400){
-        framecounter = 0;
+    if (framecounter > 4){      // Turn leds OFF
+        framecounter = 0;       // reset LED timer
+        _ledtx = 0;
+        _ledrx = 0;
+        }
+    if (_lora_select.service() == SERVICE_TX_DONE){
+        if (_useleds) { _ledtx = 1; }
         waitingTXDONE = false;
-        if (_lora_select.service() == SERVICE_TX_DONE){
-            if (_useleds) { _ledtx = !_ledtx; }
-            } 
-    }
+        framecounter = 0;       // reset LED timer
+        } 
 return;
 }
 
