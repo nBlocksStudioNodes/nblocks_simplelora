@@ -32,25 +32,25 @@ If the input in TX node is string, the RX node will convert it to array of char,
  *  Frequency: float: 137.0 to 1020.0 MHz for SX1276, 860-930MHz for CMWX1ZZABZ (due to antenna matching)
  *  PreambleMSB: uint8_t: 0 to 0xFF, number of preamble transmission symbols
  *  PreambleLSB: uint8_t: 6 to 0xFF,  number of preamble transmission symbols
- *  CodingRate: uint8_t: 5, 6, 7, 8
+ *  CodingRate: uint8_t: 1, 2, 3, 4
  *  SpreadingFactor: uint8_t: 6, 7, 8, 9, 10, 11, 12
- *  Bandwidth: float: 7.8, 10.4, 15.6, 20.8, 31.25, 41.7, 62.5, 125, 250 500 kHz
- *  HeaderMode: bool: 
+ *  Bandwidth: int: use 8 for 7.8, 11 for 10.4, 16 for 15.6, 21 for 20.8, 32 for 31.25, 42 for 41.7, 63 for 62.5, 125, 250, 500 kHz (result at Register level: 0=7.8KHz,1,2,3,4,5,6,7,8,9=500KHz)
+ *  HeaderMode: bool: true for Implicit Header, false for Explicit Header
  *  CrcOn: bool: 
- *  PayloadLength: uint8_t: 1 to 255 bytes for SX1276, 32 current limit for the Node to save RAM 
+ *  PayloadLength: uint8_t: 1 to 255 bytes for SX1276, 32 Bytes limit for the Node to save RAM 
  *  MOSI: PinName: Microcontroller pin to SX1276
  *  MISO : PinName: Microcontroller pin to SX1276
  *  SCK : PinName: Microcontroller pin to SX1276
  *  CS : PinName: Microcontroller pin to SX1276
  *  RST : PinName: Microcontroller pin to SX1276
- *  DIO0 : PinName: Microcontroller pin to SX1276
- *  DIO1 : PinName: Microcontroller pin to SX1276
+ *  DIO0 : PinName: Microcontroller pin from SX1276
+ *  DIO1 : PinName: Microcontroller pin from SX1276
  *  Mode: uint8_t: 0 RX and when Input is triggered TX the packet, 1 TX only, 2 RX only
  *  Power: PowerTx: POWER_MIN1, POWER_0, POWER_2, POWER_5, POWER_8, POWER_10, POWER_15, POWER_17, POWER_20  in dBm
  *  tcxo: PinName: Microcontroller pin to CMWX1ZZABZ TCXO
  *  useleds: bool: true for using leds
- *  ledtx: PinName: TX LED
- *  ledtx: PinName: RX LED
+ *  ledtx: PinName: ledtx
+ *  ledtx: PinName: ledrx
 
 ## Example:
 Transmitter:  [Ticker]-->[Counter]-->[StringFormat]-->[SimpleLoRa]-->RF )))    

@@ -18,7 +18,7 @@ public:
         uint8_t preamblelsb, 
         uint8_t  codingrate,
         uint8_t spreadingfactor, 
-        float bandwidth, 
+        int bandwidth, 
         bool headermode, 
         bool crcon, 
         uint8_t payloadlength,

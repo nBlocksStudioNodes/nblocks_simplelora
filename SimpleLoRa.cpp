@@ -3,7 +3,7 @@
 nBlock_SimpleLoRa::nBlock_SimpleLoRa (
         bool cmwx1zzabz,        
         float frequency, uint8_t preamblemsb, uint8_t preamblelsb, uint8_t codingrate,
-        uint8_t spreadingfactor, float bandwidth, bool headermode, bool crcon, uint8_t payloadlength,
+        uint8_t spreadingfactor, int bandwidth, bool headermode, bool crcon, uint8_t payloadlength,
         PinName mosi, PinName miso, PinName sck, PinName cs, PinName rst, PinName dio0, PinName dio1,
         uint8_t mode, PowerTx power, PinName tcxo, bool useleds, PinName ledtx, PinName ledrx) :  
         _tcxo(tcxo), 
@@ -18,7 +18,7 @@ nBlock_SimpleLoRa::nBlock_SimpleLoRa (
     if (cmwx1zzabz) { _tcxo = 1; }                          // CMWX1ZZABZ will not start without this
     _tcxo =1;
     _board.hw_reset();                                      // Reset
-    wait_us(100000);                                        // **** 100ms ****
+    wait_us(100000);                                        // ******* blocking wait for 100ms *******
     _board.init();                                          // Initialize TX
     _lora_select.enable();                                  // Initialize LoRa TX    
     
@@ -26,11 +26,11 @@ nBlock_SimpleLoRa::nBlock_SimpleLoRa (
     _board.write_reg(REG_LR_PREAMBLEMSB,preamblemsb);       // Preamble MSB 
     _board.write_reg(REG_LR_PREAMBLELSB,preamblelsb);       // Preamble LSB
 
-    _lora_select.setCodingRate(codingrate);                 // Set Coding Rate to 
-    _lora_select.setHeaderMode(headermode);                 // Set Explicit Header Mode
+    _lora_select.setCodingRate(codingrate);                 // Set Coding Rate 
+    _lora_select.setHeaderMode(headermode);                 // false: Set Explicit Header Mode
     _lora_select.setSf(spreadingfactor);                    // Set Spreading Factor 
     _lora_select.setBw_KHz(bandwidth);                      // Set BandWidth 
-    _lora_select.setRxPayloadCrcOn(crcon);                  // Turn Off CRC
+    _lora_select.setRxPayloadCrcOn(crcon);                  // false: Turn Off CRC
     _lora_select.setTxPower(power);                         // Set Power      
     _board.write_reg(REG_LR_PAYLOADLENGTH,payloadlength);   // Set Payload Length
     if (cmwx1zzabz) _tcxo = 1;                              // CMWX1ZZABZ Back to Low Power---------------
@@ -54,15 +54,14 @@ void nBlock_SimpleLoRa::triggerInput(nBlocks_Message message) {
             break;
         case OUTPUT_TYPE_STRING:
             strcpy(_tx_buffer, message.stringValue);                // -------FILL THE THE _tx_buffer with the string, 
-            for (uint32_t i=0; i<256; i++){
+            for (uint32_t i=0; i < message.dataLength; i++){
                 _board.tx_buf[i] = _tx_buffer[i];                   // then  copy to lora _board.tx_buf
             }
             _tx_updated = 1;
             break;
         case OUTPUT_TYPE_ARRAY:
             char * data_array = (char *)(message.pointerValue);
-            for (uint32_t i=0; i<message.dataLength; i++) {
-               // _tx_buffer[i] = data_array[i];                    //
+            for (uint32_t i=0; i < message.dataLength; i++) {
                _board.tx_buf[i] = data_array[i];                    // -----FILL THE THE lora TX BUFFER
             }
             _tx_updated = 1;
@@ -93,7 +92,7 @@ void nBlock_SimpleLoRa::endFrame(void) {
         if (_tx_updated) {
             _tx_updated = 0;
             _tcxo = 1;
-            _lora_select.start_tx(_payloadlength);
+            _lora_select.start_tx(20);
             waitingTXDONE = true;          
         }
     }
